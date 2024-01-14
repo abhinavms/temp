@@ -6,8 +6,10 @@ void dfs(vector<vector<int>> &adjList, int &end, vector<bool> &visited, int node
     if(node == end) {
         outputNodes.insert(previous);
         return;
+    } else {
+        visited[node] = true;
     }
-    visited[node] = true;
+    
     for(auto &i: adjList[node]) {
         if(!visited[i]) {
             dfs(adjList, end, visited, i, node, outputNodes);
