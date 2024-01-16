@@ -6,10 +6,8 @@ void dfs(vector<vector<int>> &adjList, int &end, vector<bool> &visited, int node
     if(node == end) {
         outputNodes.insert(previous);
         return;
-    } else {
-        visited[node] = true;
     }
-    
+    visited[node] = true;
     for(auto &i: adjList[node]) {
         if(!visited[i]) {
             dfs(adjList, end, visited, i, node, outputNodes);
@@ -50,6 +48,8 @@ int main() {
     
     set<int> outputNodes;
     dfs(adjList, b, visited, a, -1, outputNodes);
+
+    if(outputNodes.size() == 0) cout << "-1"; // Stupid question requires this
     
     for(auto &i: outputNodes) {
         cout << indexToValue[i] << " ";

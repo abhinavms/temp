@@ -19,6 +19,8 @@ int dijkstra(vector<vector<pair<int, int>>> &adjList, int n, int source, int tar
             }
         }
     }
+
+    if(distance[target] == INT_MAX) return -1;
     return distance[target];
 }
 
