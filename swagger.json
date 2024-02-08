@@ -10,6 +10,12 @@
     "schemes": [
         "https"
     ],
+    "produces": [
+        "application/json"
+    ],
+    "consumes": [
+        "application/json"
+    ],
     "basePath": "/rest/ofscCore/v1",
     "parameters": {
         "paramActivityId": {
@@ -6220,7 +6226,7 @@
             "properties": {
                 "items": {
                     "items": {
-                        "$ref": "#/definitions/activity"
+                        "$ref": "#/definitions/activityObject"
                     },
                     "type": "array",
                     "description": "The list of activities retrieved based on the search criteria.",
@@ -6245,7 +6251,7 @@
             "description": "The collection of activities retrieved based on the search criteria.",
             "type": "object"
         },
-        "activity": {
+        "activityObject": {
             "properties": {
                 "customerEmail": {
                     "type": "string",
@@ -7550,7 +7556,7 @@
             "properties": {
                 "items": {
                     "items": {
-                        "$ref": "#/definitions/activity"
+                        "$ref": "#/definitions/activityObject"
                     },
                     "type": "array",
                     "description": "The array of activity elements. The structure of this array is same as the array returned by the 'GET activities/{activityId}' operation.",
@@ -11451,7 +11457,7 @@
             "description": "The properties of the activity. If no fields are specified in the 'fields' parameter in the request, just 'activityId', 'resourceId', 'longitude', 'latitude' and 'date' are returned in the response. For non-scheduled activities the 'data' parameter is not be returned. Also, the 'resourceId' parameter is not returned if the property is not defined.",
             "allOf": [
                 {
-                    "$ref": "#/definitions/activity"
+                    "$ref": "#/definitions/activityObject"
                 }
             ]
         },
@@ -11696,7 +11702,7 @@
                 },
                 "items": {
                     "items": {
-                        "$ref": "#/definitions/activity"
+                        "$ref": "#/definitions/activityObject"
                     },
                     "type": "array",
                     "description": "The list of activity fields.",
@@ -12267,7 +12273,7 @@
             "properties": {
                 "time": {
                     "type": "string",
-                    "description": "The date in the Internet Date-Time format. For example, 2018-06-27T06:06:05+0000.",
+                    "description": "The date in the Internet Date-Time format. For example, 2018-06-27T06:06:05+0000.",
                     "title": "Time",
                     "format": "timestamp-date-time-iso8601"
                 },
@@ -12312,7 +12318,7 @@
                 },
                 "s": {
                     "type": "string",
-                    "description": "The status of the position. Possible values:<ul><li>earlyStart: The activity was started far from its location (red color on map)</li><li>lateFinish: The activity was completed far from its location (red color on map)</li><li>leftLocation: The resource left the activity location during work time (red color on map)</li><li>idle: The resource was idle (yellow color on map)</li></ul><p>The status is not returned when the status is normal (blue color on map).</p>",
+                    "description": "The status of the position. Possible values:<ul><li>earlyStart: The activity was started far from its location (red color on map)</li><li>lateFinish: The activity was completed far from its location (red color on map)</li><li>leftLocation: The resource left the activity location during work time (red color on map)</li><li>idle: The resource was idle (yellow color on map)</li></ul><p>The status is not returned when the status is normal (blue color on map).</p>",
                     "title": "Status",
                     "enum": [
                         "earlyStart",
@@ -13351,7 +13357,7 @@
         },
         "resourcesInAreaResponseSchema": {
             "title": "Collection of Resources in Area",
-            "description": "The collection of resources found in the specified area. The items in the collection are sorted by distance from the center of the specified area. Pagination is supported on this operation and the response contains <b>next</b> and/or <b>previous</b> pagination links.",
+            "description": "The collection of resources found in the specified area. The items in the collection are sorted by distance from the center of the specified area. Pagination is supported on this operation and the response contains <b>next</b> and/or <b>previous</b> pagination links.",
             "type": "object",
             "properties": {
                 "items": {
