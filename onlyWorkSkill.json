@@ -1,0 +1,305 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "REST API for Oracle Field Service August 2016",
+        "version": "2016.06.16",
+        "description": "<p>Oracle Field Service extends your customer service operations into the field, allowing you to achieve operational excellence and improve productivity while surpassing customer expectations, no matter how complex your organization.</p><p>Oracle Field Service provides multiple public REST APIs that can be used to access data stored in Oracle Field Service and construct integrations to other systems. These systems could be other Oracle Cloud applications or offerings, or they could be external systems in a customer or partner network. Secure access to these services requires appropriate authentication for the environment, standard HTTP methods, and JSON syntax.</p>",
+        "x-summary": "Oracle Field Service extends your customer service operations into the field, allowing you to achieve operational excellence and improve productivity while surpassing customer expectations, no matter how complex your organization."
+    },
+    "host": "sunrise0770.etadirect.com",
+    "schemes": [
+        "https"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "basePath": "/rest/ofscCore/v1",
+    "parameters": {
+        "paramActivityId": {
+            "name": "activityId",
+            "in": "path",
+            "description": "The unique identifier of the activity in Oracle Field Service.",
+            "type": "integer",
+            "required": true
+        },
+        "paramInventoryId": {
+            "name": "inventoryId",
+            "in": "path",
+            "description": "The unique identifier of the inventory in Oracle Field Service.",
+            "type": "integer",
+            "required": true
+        },
+        "paramResourceId": {
+            "name": "resourceId",
+            "in": "path",
+            "description": "The unique identifier of the resource in Oracle Field Service. This maps to the resource field 'external_id' and is not necessarily set for all resources. The resources without this parameter are not visible to the operation.",
+            "type": "string",
+            "required": true
+        },
+        "paramPlanMeasure": {
+            "name": "measure",
+            "in": "query",
+            "type": "string",
+            "enum": [
+                "man_hours",
+                "points",
+                "scheduled",
+                "FTE"
+            ],
+            "description": "The type of measure used for the work plan.",
+            "required": true
+        },
+        "paramPlanDate": {
+            "name": "date",
+            "in": "query",
+            "description": "The date when the work plan is assigned to the resource. Specify the date in YYYY-MM-DD format.",
+            "type": "string",
+            "required": true
+        },
+        "paramResourceExpand": {
+            "name": "expand",
+            "in": "query",
+            "description": "<p>The sub-entities that are embedded into each resource item returned in the response. The value is a comma-separated string containing a combination of the following values: inventories, workZones, workSkills, and workSchedules.</p><p>If one or more values are specified then the appropriate sub-entities are embedded into each resource item. For example, the following query returns the work zones and work skills linked to the specified resource: https://&lt;environment_name&gt;.fs.ocs.oraclecloud.com/rest/ofscCore/v1/resources/{resourceId}?expand=workZones,workSkills. If the value is not specified then none of the sub-entities are expanded, and they are provided as links that can be retrieved by another call.</p><p>To avoid huge responses, any sub-entity that contains more than 500 items is not expanded, and it is returned as a usual link. The link can be used to retrieve the sub-entity in a separate call using the limit and offset parameters to control the response size.</p>",
+            "type": "array",
+            "collectionFormat": "csv",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "inventories",
+                    "workSkills",
+                    "workZones",
+                    "workSchedules"
+                ]
+            },
+            "required": false
+        },
+        "paramResourceFields": {
+            "name": "fields",
+            "in": "query",
+            "description": "The comma-separated names of the resource fields that are returned in the response.<ul><li>If the value of this parameter is not specified, then all the resource fields and custom properties are returned by default.</li><li>If the resource fields are specified, then only the 'resourceId' field and requested fields are returned. For example: https://&lt;environment_name&gt;.fs.ocs.oraclecloud.com/rest/ofscCore/v1/resources/john.smith?fields=resourceId,resourceType,status.</li><li>If incorrect resource fields are specified, then the 400 error code is returned.</li></ul>",
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "collectionFormat": "csv",
+            "required": false
+        },
+        "paramLogin": {
+            "name": "login",
+            "in": "path",
+            "description": "The unique identifier of the user account in Oracle Field Service.",
+            "type": "string",
+            "required": true
+        },
+        "paramFileBody": {
+            "name": "file",
+            "in": "body",
+            "schema": {
+                "$ref": "#/definitions/file"
+            }
+        },
+        "paramOffset": {
+            "name": "offset",
+            "in": "query",
+            "description": "The record number from which the retrieval starts. The default value is zero. If no value is specified, then it defaults to zero. The value zero indicates that the retrieval will start from the beginning of the collection.",
+            "type": "integer",
+            "required": false
+        },
+        "paramLimit": {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of items to be returned in the response. The minimum value that can be specified is 1 and the maximum value that can be specified is 100. If the specified value is greater than 100, zero, or if no value is specified, then it defaults to 100.",
+            "type": "integer",
+            "required": false
+        },
+        "paramLimit1000": {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of items to be returned in the response. The maximum value is 1000. If a higher value is specified, then the value will be set to the maximum allowed value and the specified value is ignored.",
+            "type": "integer",
+            "required": false
+        },
+        "paramLimit100000": {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of activities to be returned in the response. The minimum value that can be specified is 1 and the maximum value that can be specified is 100,000. If the specified value is greater than 100,000, then it defaults to 100,000.",
+            "type": "integer",
+            "required": false
+        },
+        "paramPropertyLabel": {
+            "name": "propertyLabel",
+            "in": "path",
+            "description": "The label of a custom property. This custom property must be of type 'file'.",
+            "type": "string",
+            "required": true
+        },
+        "paramAccept": {
+            "name": "Accept",
+            "in": "header",
+            "description": "<p>The request must contain the Accept header to retrieve the file contents. The header must have either of the following:<ul><li>The actual content type (for example, application/pdf for pdf documents).</li><li>The special value 'application/octet-stream', when you don't know the content type.</li></ul></p><p>If the request doesn't have the Accept header, the response contains only the file metadata in JSON format.</p>",
+            "type": "string",
+            "required": false
+        },
+        "paramContentDisposition": {
+            "name": "Content-Disposition",
+            "in": "header",
+            "description": "The custom filename for the property. For example, <i>Content-Disposition: attachment; filename=\"photo-of-the-door.jpg\"</i> sets the filename for the property to 'photo-of-the-door.jpg'.",
+            "type": "string",
+            "required": false
+        },
+        "paramFileContentType": {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "The media type of the  property. For file properties of type 'image' having content-type as 'image/png', 'image/jpeg', or 'image/gif', Oracle Field Service generates a preview thumbnail that appears in Manage/Mobility.",
+            "type": "string",
+            "required": false
+        }
+    },
+    "tags": [
+        {
+            "name": "Core/Resources/Resource Work Skills",
+            "description": "The resource work skills resource is used to view, create, or delete work skills for a specific resource. The work skills functionality helps correlate the skill requirement for an incoming activity to the skills specified for each resource. This ensures that a resource is able to perform the activities assigned to it."
+        }
+    ],
+    "paths": {
+        "/resources/{resourceId}/workSkills": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get work skills",
+                "description": "This operation retrieves the details about the work skills assigned to the specified resource.",
+                "operationId": "get /rest/ofscCore/v1/resources/{resourceId}/workSkills",
+                "x-relation": [
+                    "work-skills"
+                ],
+                "responses": {
+                    "default": {
+                        "description": "This section describes the default error response for this operation.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "200": {
+                        "schema": {
+                            "$ref": "#/definitions/workSkills"
+                        },
+                        "description": "This section describes the 200 status response for this operation."
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "resourceId",
+                        "in": "path",
+                        "description": "The unique identifier of the resource in Oracle Field Service.",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "dateFrom",
+                        "in": "query",
+                        "description": "The work skills, which are active starting from the specified date, are retrieved in the response. Specify the date in YYYY-MM-DD format.",
+                        "type": "string",
+                        "format": "date",
+                        "required": false
+                    },
+                    {
+                        "name": "dateTo",
+                        "in": "query",
+                        "description": "The work skills, which are active starting from the date in the dateFrom parameter till the specified date, are retrieved in the response. Specify the date in YYYY-MM-DD format. If you specify the dateTo parameter, then you must also specify the dateFrom parameter.",
+                        "type": "string",
+                        "format": "date",
+                        "required": false
+                    }
+                ],
+                "tags": [
+                    "Core/Resources/Resource Work Skills"
+                ],
+                "x-internal-id": "rest-ofscCore-v1-resources-{resourceId}-workSkills-get"
+            }
+        }
+    },
+    "definitions": {
+        "resourceWorkSkill": {
+            "title": "Work Skill",
+            "type": "object",
+            "required": [
+                "workSkill",
+                "ratio"
+            ],
+            "properties": {
+                "workSkill": {
+                    "type": "string",
+                    "title": "Work Skill Label",
+                    "maxLength": 40,
+                    "description": "The label of the work skill."
+                },
+                "ratio": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "title": "Ratio",
+                    "description": "The skill level of the resource."
+                },
+                "startDate": {
+                    "type": "string",
+                    "title": "Start Date",
+                    "description": "The date when the work skill takes effect. Specify the date in 'YYYY-MM-DD' format."
+                },
+                "endDate": {
+                    "type": "string",
+                    "title": "End Date",
+                    "description": "The date until when the work skill is effective. Specify the date in 'YYYY-MM-DD' format."
+                }
+            }
+        },
+        "workSkills": {
+            "properties": {
+                "items": {
+                    "items": {
+                        "$ref": "#/definitions/resourceWorkSkill"
+                    },
+                    "type": "array",
+                    "description": "An array of objects containing the details of the work skills of the resource.",
+                    "title": "Items"
+                }
+            },
+            "type": "object",
+            "description": "The collection of resource work skill items.",
+            "title": "Work Skills"
+        },
+        "Error": {
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "description": "The URL of the web page containing more details about this error."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The brief description of this error."
+                },
+                "status": {
+                    "type": "string",
+                    "description": "The HTTP status code of this error."
+                },
+                "detail": {
+                    "type": "string",
+                    "description": "The detailed description of this error."
+                }
+            },
+            "required": [
+                "type",
+                "title"
+            ]
+        },
+        "file": {
+            "type": "string",
+            "format": "binary",
+            "title": "File",
+            "description": "The contents of the file. This is usually binary data."
+        }
+    }
+}
