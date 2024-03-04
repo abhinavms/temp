@@ -124,6 +124,11 @@
                     "type": "array",
                     "description": "An array of objects containing the details of the work skills of the resource.",
                     "title": "Items"
+                },
+                "totalResults": {
+                    "type": "integer",
+                    "description": "The total number of activities in the response.",
+                    "title": "Total Results"
                 }
             },
             "type": "object",
